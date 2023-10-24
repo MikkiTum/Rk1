@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+struct Order {
+    std::string name;
+    int quantity;
+    double price;
+};
+
+bool compareOrders(const Order& order1, const Order& order2) {
+    return order1.name < order2.name;
+}
+
+int main() {
+    int numOrders;
+    std::cout << "Введите количество заказанных товаров: ";
+    std::cin >> numOrders;
+
+    Order* orders = new Order[numOrders];
+
+    for (int i = 0; i < numOrders; i++) {
+        std::cout << "Введите название товара " << i+1 << ": ";
+        std::cin >> orders[i].name;
+
+        std::cout << "Введите количество единиц товара " << i+1 << ": ";
+        std::cin >> orders[i].quantity;
+
+        std::cout << "Введите цену за единицу товара " << i+1 << ": ";
+        std::cin >> orders[i].price;
+
+        double totalCost = orders[i].quantity * orders[i].price;
+        std::cout << "Общая стоимость заказа: " << totalCost << std::endl;
+    }
+
+    std::sort(orders, orders + numOrders, compareOrders);
+
+    std::cout << "Список заказанных товаров:" << std::endl;
+    for (int i = 0; i < numOrders; i++) {
+        std::cout << i+1 << ". " << orders[i].name 
+                  << " - Количество: " << orders[i].quantity
+                  << ", Цена за единицу: " << orders[i].price << std::endl;
+    }
+
+    double totalSum = 0;
+    for (int i = 0; i < numOrders; i++) {
+        totalSum += orders[i].quantity * orders[i].price;
+    }
+    std::cout << "Общая сумма всех заказов: " << totalSum << std::endl;
+
+    delete[] orders;
+
+    return 0;
+}
